@@ -1,3 +1,10 @@
 #!/bin/bash
-find . -type d -exec chmod 751 {} +
+
+# Find all subdirectories in the current directory
+subdirs=$(find . -type d)
+
+# Add execute permission for owner, group, and others to each subdirectory
+for dir in $subdirs; do
+    chmod +x $dir
+done
 
