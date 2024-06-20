@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Use awk to split input into words
+awk '
+{
+    for (i=1; i<=NF; i++) {
+        word[$i]++
+    }
+}
+
+END {
+    for (w in word) {
+        if (word[w] == 1) {
+            print w
+        }
+    }
+}
+' | sort
+

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Display the 10 newest files in the current directory
+ls -lt | awk '{print $9}' | head -n 10
+

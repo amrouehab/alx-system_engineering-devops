@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Use tr to replace characters 'A' with 'Z' and 'c' with 'e'
+tr 'Ac' 'Ze'
+

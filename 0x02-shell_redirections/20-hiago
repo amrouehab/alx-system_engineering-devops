@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Use tr to delete letters 'c' and 'C' from input
+tr -d 'cC'
+
