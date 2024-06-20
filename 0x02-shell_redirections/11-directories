@@ -1,2 +1,2 @@
 #!/bin/bash
-num_dirs=$(find . -type d ! -name "." ! -name ".." | grep -c ^d); echo "There are $num_dirs directories (including hidden) in the current directory."
+find . -type d ! -name "." ! -name ".." | grep ^d | wc -l
