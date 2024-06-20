@@ -1,5 +1,2 @@
 #!/bin/bash
-
-# Use rev to reverse the input
 rev
-

@@ -1,5 +1,2 @@
 #!/bin/bash
-
-# Use grep to find lines containing the pattern "root" in /etc/passwd
 grep "root" /etc/passwd
-

@@ -1,7 +1,2 @@
 #!/bin/bash
-
-# Read /etc/passwd file, extract usernames and home directories, sort them alphabetically by username
-while IFS=":" read -r username _ _ _ _ home _; do
-    echo "$username:$home"
-done < /etc/passwd | sort
-
+while IFS=":" read -r username _ _ _ _ home _; do echo "$username:$home"; done < /etc/passwd | sort
