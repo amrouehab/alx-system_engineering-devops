@@ -1,0 +1,5 @@
+#!/bin/bash
+# Using `IFS` to read `/etc/passwd` line by line
+while IFS=: read -r username password uid gid full_name home_dir shell; do
+    echo "$username:$uid:$home_dir"
+done < /etc/passwd

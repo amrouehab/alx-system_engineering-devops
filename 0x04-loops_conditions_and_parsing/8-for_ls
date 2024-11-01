@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# This script lists files in the current directory, removing text before the first dash
+
+for file in *; do
+    [ -f "$file" ] || continue
+    echo "${file#*-}"
+done

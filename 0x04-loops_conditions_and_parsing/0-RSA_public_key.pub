@@ -1,0 +1,5 @@
+# Generate a 4096-bit RSA key pair with a descriptive filename
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/alx_key -C "amrou_ehab@gmail.com"
+# Save the public key to the specified file
+cp ~/.ssh/alx_key.pub 0-RSA_public_key.pub
+
