@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 # This script configures localhost to resolve to 127.0.0.2 and facebook.com to 8.8.8.8
 
-# Adding entries to the hosts file
-echo "127.0.0.2 localhost" | sudo tee -a /etc/hosts > /dev/null
-echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts > /dev/null
+# Check if required entries already exist in /etc/hosts and add them if missing
+if ! grep -q "^127.0.0.2[[:space:]]localhost$" /etc/hosts; then
+    echo "127.0.0.2 localhost" | sudo tee -a /etc/hosts > /dev/null
+fi
+
+if ! grep -q "^8.8.8.8[[:space:]]facebook.com$" /etc/hosts; then
+    echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts > /dev/null
+fi
 
