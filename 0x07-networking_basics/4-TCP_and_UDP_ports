@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# This script displays listening TCP and UDP ports with the associated PID and program name.
+
+sudo netstat -tulnp | grep LISTEN
+
