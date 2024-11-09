@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# This script displays all active IPv4 IP addresses on the machine.
+
+# Display active IPv4 addresses
+hostname -I | awk '{for(i=1;i<=NF;i++) print $i}'
+
