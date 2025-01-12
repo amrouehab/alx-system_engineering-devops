@@ -1,5 +1,2 @@
-# Generate a 4096-bit RSA key pair with a descriptive filename
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/alx_key -C "amrou_ehab@gmail.com"
-# Save the public key to the specified file
-cp ~/.ssh/alx_key.pub 0-RSA_public_key.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDeAhU4eSqAxBN9CpnN+zekLgffslZJasGiBXvxZlDfFiz3BTbJkIhfgmKkjgPnfONbeugN+lm9XebaWB7L6Q3AyeOeZv4DuLazTVqLI5y1NBPOHLZxxNAhk4+3C5idlIYsXEg0Di3LBjefU03iZ/aJA++40YYOlmHJf33xty7z2ns2szsS0zb+EtzpbcljEzGIk3Mz9d4mmn4RRKT+V6D35E8NuGM82EqyRm/+zGILguKmMWzfqiyJCqRXxlvlu9GipNqnnD8ELjmedx9RUjoOe/sMZkvafksk0o2j/3ZkbUl2s3xvISatcu223W3vzJrgFyD5YW7HYbl88anXiyAr2Kgvmv8WSgLt3zddX0UcWWjM8Fx+oMbVAcSsl/0dTvdH5nOX/0WIuheG/gBzlUedSbSmQUM4nuEQOb8RVjy/NzjEmdUKdk2wj9n7EgqYyrk7j0qwjkW9fAjyuzHQeMSA3uQ4g3o29O8aqic470Pdm+AkyQfXQdPmvK3fRR94kq8v3PMsBWTodIknDxIlWUujYKlQk6B4by+WF6VkoW8lezAbNlAb9x2ntG5W1U59xiRvARJmEg2VPAtnRDjTClC6I5rGxgHxYkCjMcjcMJkqvsAuEGEm6HCrpIcoGDIP4fNxwFOX0aGMDp0S47RcEVnORG2bHI9JAkhQP3IdYsXGgQ== amrou_ehab@gmail.com
 
