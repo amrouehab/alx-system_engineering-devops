@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Configures Nginx server for 301 redirection
+
+# Create backup of default nginx configuration
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+# Reset the default configuration to original state (removing duplicate redirects)
+cat > /etc/nginx/sites-available/default << 'EOL'
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name _;
+
+        location /redirect_me {
+                return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+        }
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+EOL
+
+# Ensure the web root directory exists
+mkdir -p /var/www/html
+
+# Set appropriate permissions
+chown -R "$USER":"$USER" /var/www/html
+chmod -R 755 /var/www
+
+# Ensure index page exists with Hello World!
+echo "Hello World!" > /var/www/html/index.html
+
+# Test nginx configuration
+nginx -t
+
+# Restart nginx (without using systemctl)
+service nginx restart
+
+exit 0

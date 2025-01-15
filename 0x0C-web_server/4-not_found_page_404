@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Configures Nginx server with custom 404 page
+
+# Create backup of default nginx configuration
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+# Reset the default configuration while maintaining the redirect and adding 404
+cat > /etc/nginx/sites-available/default << 'EOL'
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        error_page 404 /404.html;
+        server_name _;
+
+        location /redirect_me {
+                return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+        }
+
+        location = /404.html {
+                root /var/www/html;
+                internal;
+        }
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+EOL
+
+# Ensure the web root directory exists
+mkdir -p /var/www/html
+
+# Set appropriate permissions
+chown -R "$USER":"$USER" /var/www/html
+chmod -R 755 /var/www
+
+# Create or maintain index page
+echo "Hello World!" > /var/www/html/index.html
+
+# Create custom 404 page
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+
+# Test nginx configuration
+nginx -t
+
+# Restart nginx (without using systemctl)
+service nginx restart
+
+exit 0
