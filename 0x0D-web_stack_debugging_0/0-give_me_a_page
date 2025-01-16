@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Script to start Apache server and configure it to return "Hello ALX"
+
+# Start Apache service
+service apache2 start
+
+# Create index.html with Hello ALX content
+echo "Hello ALX" > /var/www/html/index.html
