@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# Configures Nginx with custom header X-Served-By
+# The header value is the hostname of the server
+
+# Update package list and install nginx if not installed
+apt-get update
+apt-get install -y nginx
+
+# Create nginx directory structure if it doesn't exist
+mkdir -p /var/www/html
+mkdir -p /etc/nginx/sites-available/
+mkdir -p /etc/nginx/sites-enabled/
+
+# Create default HTML page
+echo "Hello World!" > /var/www/html/index.html
+
+# Create custom 404 page
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+
+# Get hostname of the server
+HOSTNAME=$(hostname)
+
+# Create Nginx configuration with custom header
+cat > /etc/nginx/conf.d/custom_header.conf << EOF
+add_header X-Served-By $HOSTNAME;
+EOF
+
+# Configure Nginx default site
+cat > /etc/nginx/sites-available/default << EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+        add_header X-Served-By $HOSTNAME;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+        add_header X-Served-By $HOSTNAME;
+    }
+}
+EOF
+
+# Create symbolic link if not exists
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+
+# Test Nginx configuration
+nginx -t
+
+# Restart Nginx to apply changes
+service nginx restart
