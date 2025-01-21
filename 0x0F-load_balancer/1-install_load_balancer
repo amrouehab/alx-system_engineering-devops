@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 # Install and configure HAProxy on lb-01 server
+# IP Addresses:
+# web-01: 54.173.103.252
+# web-02: 18.210.20.23
+# LB: 100.24.237.108
 
 # Update packages
 apt-get -y update
@@ -10,10 +14,10 @@ add-apt-repository -y ppa:vbernat/haproxy-2.4
 apt-get -y update
 apt-get -y install haproxy
 
-# Create backup of original config
+# Backup original config
 cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
 
-# Configure HAProxy
+# Create HAProxy configuration
 cat > /etc/haproxy/haproxy.cfg << EOF
 global
     log /dev/log local0
@@ -40,12 +44,19 @@ frontend http_front
 
 backend http_back
     balance roundrobin
-    server web-01 web-01-ip:80 check
-    server web-02 web-02-ip:80 check
+    server web-01 54.173.103.252:80 check
+    server web-02 18.210.20.23:80 check
 EOF
 
-# Enable HAProxy to be started by init script
-echo "ENABLED=1" >> /etc/default/haproxy
+# Enable HAProxy init script
+echo "ENABLED=1" > /etc/default/haproxy
 
-# Start HAProxy
-service haproxy restart
+# Test the configuration
+if haproxy -c -f /etc/haproxy/haproxy.cfg; then
+    # Restart HAProxy
+    systemctl restart haproxy
+    echo "HAProxy configuration is valid and service has been restarted"
+else
+    echo "HAProxy configuration is invalid"
+    exit 1
+fi
