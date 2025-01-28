@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# This script ensures Nginx is installed, configured to listen on port 80, and running.
+
+# Install Nginx if not already installed
+if ! command -v nginx &> /dev/null; then
+    apt-get update
+    apt-get install -y nginx
+fi
+
+# Ensure Nginx is configured to listen on port 80
+sed -i 's/listen [::]:80 default_server;/listen [::]:80;/g' /etc/nginx/sites-available/default
+
+# Restart Nginx to apply changes
+service nginx restart
