@@ -1,0 +1,16 @@
+# 4-mysql_configuration_primary (web-01)
+[mysqld]
+# Comment out bind-address to allow external connections
+# bind-address = 127.0.0.1
+
+# Server ID (unique for primary)
+server-id = 1
+
+# Enable binary logging for replication
+log_bin = /var/log/mysql/mysql-bin.log
+
+# Replicate only the tyrell_corp database
+binlog_do_db = tyrell_corp
+
+# Optional: Error logging
+log_error = /var/log/mysql/error.log

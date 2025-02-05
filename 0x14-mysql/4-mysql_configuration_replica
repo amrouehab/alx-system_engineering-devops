@@ -1,0 +1,16 @@
+# 4-mysql_configuration_replica (web-02)
+[mysqld]
+# Server ID (unique for replica)
+server-id = 2
+
+# Enable relay logging
+relay-log = /var/log/mysql/mysql-relay-bin.log
+
+# Replicate only the tyrell_corp database
+binlog_do_db = tyrell_corp
+
+# Optional: Read-only mode for replica
+read_only = ON
+
+# Optional: Error logging
+log_error = /var/log/mysql/error.log
