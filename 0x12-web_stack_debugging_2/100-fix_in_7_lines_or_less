@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Short script to run Nginx as nginx user on port 8080
+
+sed -i 's/user .*/user nginx;/g; s/listen 80;/listen 8080;/g' /etc/nginx/nginx.conf
+chown -R nginx:nginx /var/lib/nginx /var/log/nginx
+systemctl restart nginx
+
