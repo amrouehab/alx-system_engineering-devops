@@ -6,4 +6,3 @@ DATE=$(date +"%d-%m-%Y")
 mysqldump -u root -p"$PASSWORD" --all-databases > backup.sql
 tar -czf "$DATE.tar.gz" backup.sql
 rm backup.sql
-
