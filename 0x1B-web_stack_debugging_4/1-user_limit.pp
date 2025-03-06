@@ -1,14 +1,7 @@
-# Increase the open file limit for the holberton user
-file_line { 'holberton_soft_limit':
-  ensure => present,
-  path   => '/etc/security/limits.conf',
-  line   => 'holberton soft nofile 65536',
-  match  => '^holberton soft nofile',
-}
+# This Puppet manifest increases the file limits for the holberton user
+# Fixes the "Too many open files" error when logging in as holberton
 
-file_line { 'holberton_hard_limit':
-  ensure => present,
-  path   => '/etc/security/limits.conf',
-  line   => 'holberton hard nofile 65536',
-  match  => '^holberton hard nofile',
+exec { 'change-os-configuration-for-holberton-user':
+  command => 'sed -i "/holberton hard/c\holberton hard nofile 50000" /etc/security/limits.conf && sed -i "/holberton soft/c\holberton soft nofile 50000" /etc/security/limits.conf',
+  path    => '/usr/local/bin/:/bin/:/usr/bin/'
 }
