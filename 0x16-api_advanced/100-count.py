@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Module for recursively querying the Reddit API to count keywords in hot post titles
+Module for recursively querying the Reddit API to count keywords in post titles
 """
 import requests
 
@@ -50,15 +50,12 @@ def count_words(subreddit, word_list, after=None, word_counts=None):
         # Process each post title
         for post in posts:
             title = post.get("data", {}).get("title", "").lower()
-            
             # Split the title into words
             words = title.split()
-            
             # Count the occurrences of each keyword
             for word in words:
                 # Remove punctuation around the word
                 clean_word = word.strip(".,!?:;\"'()[]{}")
-                
                 # Check if the cleaned word is in our word list
                 for key in word_counts:
                     if clean_word == key.lower():
@@ -71,17 +68,14 @@ def count_words(subreddit, word_list, after=None, word_counts=None):
             # Print the sorted word counts
             # Remove words with 0 count
             filtered_counts = {k: v for k, v in word_counts.items() if v > 0}
-            
             # Sort by count (descending) and then alphabetically
             sorted_counts = sorted(
                 filtered_counts.items(),
                 key=lambda x: (-x[1], x[0])
             )
-            
             # Print the results
             for word, count in sorted_counts:
                 print(f"{word.lower()}: {count}")
-            
             return
     else:
         # Return without printing anything for invalid subreddits

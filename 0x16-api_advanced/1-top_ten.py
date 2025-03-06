@@ -31,7 +31,6 @@ def top_ten(subreddit):
     if response.status_code == 200:
         # Parse the JSON response
         data = response.json().get("data", {}).get("children", [])
-        
         # Print the titles of the first 10 hot posts
         for post in data:
             print(post.get("data", {}).get("title", ""))
