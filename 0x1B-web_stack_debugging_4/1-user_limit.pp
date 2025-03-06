@@ -1,18 +1,21 @@
-# This Puppet manifest increases open file limits for the holberton user.
+# Reconfigure the OS for 'holberton' to login and open files without errors
 
 class user_limit_fix {
-  file_line { 'increase-holberton-nofile-soft':
+  # Set hard file limit for holberton user
+  file_line { 'increase-holberton-hard-limit':
     path  => '/etc/security/limits.conf',
-    line  => 'holberton soft nofile 65535',
-    match => '^holberton soft nofile',
-  }
-
-  file_line { 'increase-holberton-nofile-hard':
-    path  => '/etc/security/limits.conf',
-    line  => 'holberton hard nofile 65535',
+    line  => 'holberton hard nofile 50000',
     match => '^holberton hard nofile',
   }
 
+  # Set soft file limit for holberton user
+  file_line { 'increase-holberton-soft-limit':
+    path  => '/etc/security/limits.conf',
+    line  => 'holberton soft nofile 50000',
+    match => '^holberton soft nofile',
+  }
+
+  # Ensure PAM applies the new limits
   file_line { 'enable-pam-limits':
     path  => '/etc/pam.d/common-session',
     line  => 'session required pam_limits.so',
