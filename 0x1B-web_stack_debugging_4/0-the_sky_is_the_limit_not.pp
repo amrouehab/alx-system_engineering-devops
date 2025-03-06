@@ -1,5 +1,20 @@
-# Fix Nginx to handle more concurrent connections by increasing the open file limit
-exec { 'fix--for-nginx':
-  command => "/bin/sed -i '/^\\[Service\\]$/a LimitNOFILE=65536' /etc/systemd/system/nginx.service && /bin/systemctl daemon-reload && /bin/systemctl restart nginx",
-  onlyif  => "/bin/grep -q '^\\[Service\\]$' /etc/systemd/system/nginx.service && ! /bin/grep -q 'LimitNOFILE=65536' /etc/systemd/system/nginx.service",
+# Adjust Nginx configuration to handle more concurrent connections and increase file limits
+exec { 'fix-nginx-config':
+  command => '/bin/sed -i "s/worker_processes 4;/worker_processes auto;/g; s/worker_connections 768;/worker_connections 4096;/g" /etc/nginx/nginx.conf',
+  onlyif  => '/bin/grep -q "worker_processes 4" /etc/nginx/nginx.conf && /bin/grep -q "worker_connections 768" /etc/nginx/nginx.conf',
+  notify  => Service['nginx'],
+}
+
+file_line { 'nginx_ulimit':
+  ensure => present,
+  path   => '/etc/default/nginx',
+  line   => 'ULIMIT="-n 8192"',
+  match  => '^#?ULIMIT=',
+  notify => Service['nginx'],
+}
+
+service { 'nginx':
+  ensure     => running,
+  enable     => true,
+  hasrestart => true,
 }
