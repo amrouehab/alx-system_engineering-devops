@@ -1,21 +1,25 @@
-# Puppet manifest to fix Apache 500 error by ensuring PHP module and correct permissions
+# Puppet manifest to fix Apache 500 error by ensuring required PHP modules are installed and permissions are correct
 
-exec { 'install-php':
-  command => '/usr/bin/apt-get update && /usr/bin/apt-get install -y libapache2-mod-php5 php5',
-  path    => ['/bin', '/usr/bin'],
-  unless  => 'dpkg -l | grep libapache2-mod-php5',
+class apache_fix {
+  package { 'php5':
+    ensure => installed,
+  }
+
+  package { 'libapache2-mod-php5':
+    ensure => installed,
+  }
+
+  service { 'apache2':
+    ensure  => running,
+    enable  => true,
+    require => Package['php5', 'libapache2-mod-php5'],
+  }
+
+  exec { 'fix-permissions':
+    command => 'chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html',
+    onlyif  => 'test -d /var/www/html',
+  }
 }
 
-file { '/var/www/html':
-  ensure  => directory,
-  owner   => 'www-data',
-  group   => 'www-data',
-  mode    => '0755',
-  recurse => true,
-}
+include apache_fix
 
-service { 'apache2':
-  ensure    => running,
-  enable    => true,
-  subscribe => Exec['install-php'],
-}
